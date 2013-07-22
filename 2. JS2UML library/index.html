@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UML Diagram</title>
+
+    <link type="text/css" rel="stylesheet" href="css/UDStyle.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="css/personal.css" media="screen" />
+    <script type="text/javascript" src="UDCore.js"></script>
+    <script type="text/javascript" src="UDModules.js"></script>
+    <script type="text/javascript" src="UDApplication.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery.mousewheel.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+
+            var width = window.innerWidth - 250;
+
+            width = 1000;
+
+            var app = new Application( { id: 'umldiagram', width: width, height: 580 } );
+
+            $('#ud_container_div').mousedown(function (event) {
+                    $(this)
+                            .data('down', true)
+                            .data('x', event.clientX)
+                            .data('scrollLeft', this.scrollLeft)
+                            .data('y', event.clientY)
+                            .data('scrollTop' ,this.scrollTop);
+
+
+                    console.log("intra");
+                    return false;
+                }).mouseup(function (event) {
+                            $(this).data('down', false);
+                        }).mousemove(function (event) {
+                            if ($(this).data('down') == true) {
+                                this.scrollLeft = $(this).data('scrollLeft') + $(this).data('x') - event.clientX;
+                                this.scrollTop = $(this).data('scrollTop') + $(this).data('y') - event.clientY;
+                            }
+                        });
+
+
+
+            $(window).mouseout(function (event) {
+                if ($('#ud_container_div').data('down')) {
+                    try {
+                        if (event.originalTarget.nodeName == 'BODY' || event.originalTarget.nodeName == 'HTML') {
+                            $('#ud_container_div').data('down', false);
+                        }
+                    } catch (e) {}
+                }
+            });
+        };
+    </script>
+
+
+</head>
+
+<body>
+
+<div id="umldiagram" >
+</div>
+
+
+
+<div id="debug"></div>
+</body>
+</html>
